@@ -4,4 +4,8 @@
 
 <script setup lang="ts"></script>
 
-<style lang="" scoped></style>
+<!-- Name: Ervin Howell
+Email:  Shanna@melissa.tv
+Company: Deckow-Crist
+Catch Phrase: Proactive didactic contingency
+BS: synergize scalable supply-chains -->

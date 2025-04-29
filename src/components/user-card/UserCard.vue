@@ -4,12 +4,17 @@
             <button
                 type="button"
                 v-tooltip="'Delete'"
-                class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300"
+                class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300 transition-colors hover:border-white hover:bg-red-500 hover:text-white active:border-white active:bg-red-500 active:text-white"
                 @click="emit('delete', user?.id)"
             >
                 <AppIcon icon="wpf:delete" class="text-sm" />
             </button>
-            <button type="button" v-tooltip="'Edit'" class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300" @click="emit('edit', user?.id)">
+            <button
+                type="button"
+                v-tooltip="'Edit'"
+                class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300 transition-colors hover:border-white hover:bg-green-300 hover:text-white active:border-white active:bg-green-300 active:text-white"
+                @click="emit('edit', user?.id)"
+            >
                 <AppIcon icon="fa-solid:edit" class="text-sm" />
             </button>
         </div>

@@ -9,6 +9,16 @@ const router = createRouter({
             name: 'home',
             component: HomeView,
         },
+        {
+            path: '/:userId/edit-user',
+            name: 'edit',
+            component: async () => import('@/views/UserViews/EditUser.vue'),
+        },
+        {
+            path: '/create-user',
+            name: 'create',
+            component: async () => import('@/views/UserViews/CreateUser.vue'),
+        },
     ],
 })
 

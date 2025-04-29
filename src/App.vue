@@ -1,7 +1,9 @@
 <template>
     <AppHeader />
-    <main class="h-full">
-        <RouterView />
+    <main class="h-full overflow-x-hidden">
+        <Transition name="slide-right">
+            <RouterView />
+        </Transition>
     </main>
 </template>
 

@@ -6,8 +6,10 @@ import type { IUsersStore } from './types'
 export const useUsersStore = defineStore('users', {
     state: () =>
         ({
+            user: null,
             users: [],
             usersLoading: false,
+            userLoading: false,
         }) as IUsersStore,
 
     actions: {
@@ -24,6 +26,22 @@ export const useUsersStore = defineStore('users', {
                 toast.error(error)
             } finally {
                 this.usersLoading = false
+            }
+        },
+
+        async setUser(id: number) {
+            this.userLoading = false
+            try {
+                this.usersLoading = true
+                const userData = await api.getUser(id)
+                if (userData) {
+                    this.user = userData
+                }
+            } catch (e: unknown) {
+                const error = e as string
+                toast.error(error)
+            } finally {
+                this.userLoading = false
             }
         },
 
