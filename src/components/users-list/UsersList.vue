@@ -25,6 +25,7 @@ const usersStore = useUsersStore()
 const { usersLoading, users } = storeToRefs(usersStore)
 
 onBeforeMount(() => {
+    if (users.value.length) return
     usersStore.setUsers()
 })
 </script>

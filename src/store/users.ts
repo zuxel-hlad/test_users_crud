@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import api from '@/api'
 import { toast } from 'vue3-toastify'
 import type { IUsersStore } from './types'
+import type { INewUser } from '@/types'
 
 export const useUsersStore = defineStore('users', {
     state: () =>
@@ -43,6 +44,11 @@ export const useUsersStore = defineStore('users', {
             } finally {
                 this.userLoading = false
             }
+        },
+
+        createUser(user: INewUser) {
+            this.users.push(user)
+            toast.success(`User "${user.name}" successfully Added!`)
         },
 
         deleteUser(id: number) {

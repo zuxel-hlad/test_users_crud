@@ -1,11 +1,17 @@
 <template>
-    <div>create</div>
+    <section class="pt-8">
+        <div class="container mx-auto px-6">
+            <CreateUserForm @create="onCreateNewUser" />
+        </div>
+    </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CreateUserForm from '@/components/create-user-form/CreateUserForm.vue'
+import { useUsersStore } from '@/store/users'
+import type { INewUser } from '@/types'
 
-<!-- Name: Ervin Howell
-Email:  Shanna@melissa.tv
-Company: Deckow-Crist
-Catch Phrase: Proactive didactic contingency
-BS: synergize scalable supply-chains -->
+const usersStore = useUsersStore()
+
+const onCreateNewUser = (user: INewUser): void => usersStore.createUser(user)
+</script>

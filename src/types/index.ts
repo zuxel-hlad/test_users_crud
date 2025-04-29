@@ -1,9 +1,9 @@
 export interface IUser {
     id: number
     name: string
-    username: string
-    email: string
-    address: {
+    username?: string
+    email?: string
+    address?: {
         street: string
         suite: string
         city: string
@@ -20,4 +20,8 @@ export interface IUser {
         catchPhrase: string
         bs: string
     }
+}
+
+export interface INewUser extends Pick<IUser, 'name' | 'email' | 'id'> {
+    company: IUser['company']
 }
