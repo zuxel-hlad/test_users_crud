@@ -76,7 +76,7 @@ const setInitialOption = async (): Promise<void> => {
     }
 }
 
-onMounted(() => {
-    setInitialOption()
-})
+// onMounted(() => {
+//     setInitialOption()
+// })
 </script>
