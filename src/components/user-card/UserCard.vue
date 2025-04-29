@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded border border-gray-300 p-5 shadow-md">
+    <div tabindex="0" class="rounded border border-gray-300 p-5 shadow-md transition-[box-shadow] hover:shadow-2xl active:shadow-2xl">
         <div class="mb-2.5 flex w-full items-start justify-end gap-3">
             <button
                 type="button"

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import api from '@/api'
 import { toast } from 'vue3-toastify'
 import type { IUsersStore } from './types'
-import type { INewUser } from '@/types'
+import type { IUser } from '@/types'
 
 export const useUsersStore = defineStore('users', {
     state: () =>
@@ -31,9 +31,14 @@ export const useUsersStore = defineStore('users', {
         },
 
         async setUser(id: number) {
+            const localUser = this.users.find(user => user.id === id)
             this.userLoading = false
             try {
-                this.usersLoading = true
+                if (localUser) {
+                    this.user = localUser
+                    return
+                }
+                this.userLoading = true
                 const userData = await api.getUser(id)
                 if (userData) {
                     this.user = userData
@@ -46,9 +51,22 @@ export const useUsersStore = defineStore('users', {
             }
         },
 
-        createUser(user: INewUser) {
+        createUser(user: IUser) {
             this.users.push(user)
             toast.success(`User "${user.name}" successfully Added!`)
+        },
+
+        editUser(updatedUser: IUser) {
+            this.users = this.users.map(user => {
+                if (user.id === updatedUser.id) {
+                    return {
+                        ...updatedUser,
+                    }
+                }
+                return user
+            })
+            toast.success(`User "${this.user?.name}" successfully updated!`)
+            this.user = null
         },
 
         deleteUser(id: number) {

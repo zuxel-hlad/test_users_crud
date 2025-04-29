@@ -21,7 +21,3 @@ export interface IUser {
         bs: string
     }
 }
-
-export interface INewUser extends Pick<IUser, 'name' | 'email' | 'id'> {
-    company: IUser['company']
-}
