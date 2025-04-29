@@ -1,10 +1,15 @@
 <template>
     <div class="rounded border border-gray-300 p-5 shadow-md">
         <div class="mb-2.5 flex w-full items-start justify-end gap-3">
-            <button type="button" v-tooltip="'Delete'" class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300">
+            <button
+                type="button"
+                v-tooltip="'Delete'"
+                class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300"
+                @click="emit('delete', user?.id)"
+            >
                 <AppIcon icon="wpf:delete" class="text-sm" />
             </button>
-            <button type="button" v-tooltip="'Edit'" class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300">
+            <button type="button" v-tooltip="'Edit'" class="flex h-6 w-6 cursor-pointer items-center justify-center rounded border border-gray-300" @click="emit('edit', user?.id)">
                 <AppIcon icon="fa-solid:edit" class="text-sm" />
             </button>
         </div>
@@ -29,4 +34,5 @@
 import type { IUser } from '@/types'
 
 const { user } = defineProps<{ user: IUser }>()
+const emit = defineEmits<{ (e: 'edit', value: number): void; (e: 'delete', value: number): void }>()
 </script>
