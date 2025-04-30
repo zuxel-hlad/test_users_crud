@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
+    base: '/',
     plugins: [vue(), vueDevTools(), tailwindcss()],
 
     resolve: {
@@ -12,5 +13,4 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./src', import.meta.url)),
         },
     },
-    base: './',
 })
