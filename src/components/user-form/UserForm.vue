@@ -39,23 +39,23 @@
 
 <script setup lang="ts">
 import { Field, ErrorMessage, Form } from 'vee-validate'
-import { onBeforeMount, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { validationSchema } from './validation-schema'
-import type { IFormField } from './types'
-import type { IUser } from '@/types'
+import type { FormField } from './types'
+import type { User } from '@/types'
 
 const { user, mode = 'create' } = defineProps<{
-    user?: IUser | null
+    user?: User | null
     mode?: 'edit' | 'create'
 }>()
 
 const emit = defineEmits<{
-    (e: 'save', payload: IUser): void
+    (e: 'save', payload: User): void
 }>()
 
 const formRef = ref<typeof Form | null>(null)
 
-const fields: IFormField[] = [
+const fields: FormField[] = [
     { name: 'name', label: 'Name', type: 'text' },
     { name: 'email', label: 'Email', type: 'email' },
     { name: 'company', label: 'Company', type: 'text' },
@@ -71,7 +71,7 @@ const initialValues = ref({
     bs: '',
 })
 
-onBeforeMount(() => {
+onMounted(() => {
     if (mode === 'edit' && user) {
         initialValues.value = {
             name: user.name ?? '',
@@ -85,7 +85,7 @@ onBeforeMount(() => {
 
 const onSave = (values: Record<string, string>): void => {
     const id = user?.id ?? Date.now()
-    const newUser: IUser = {
+    const newUser: User = {
         id,
         name: values.name,
         email: values.email,

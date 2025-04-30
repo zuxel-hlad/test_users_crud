@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import UserCard from '@/components/user-card/UserCard.vue'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { useUsersStore } from '@/store/users'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -24,7 +24,7 @@ const { push } = useRouter()
 const usersStore = useUsersStore()
 const { usersLoading, users } = storeToRefs(usersStore)
 
-onBeforeMount(() => {
+onMounted(() => {
     if (users.value.length) return
     usersStore.setUsers()
 })

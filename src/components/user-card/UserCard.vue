@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser } from '@/types'
+import type { User } from '@/types'
 
-const { user } = defineProps<{ user: IUser }>()
+const { user } = defineProps<{ user: User }>()
 const emit = defineEmits<{ (e: 'edit', value: number): void; (e: 'delete', value: number): void }>()
 </script>

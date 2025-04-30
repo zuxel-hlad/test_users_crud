@@ -9,9 +9,9 @@
 <script setup lang="ts">
 import CreateUserForm from '@/components/user-form/UserForm.vue'
 import { useUsersStore } from '@/store/users'
-import type { IUser } from '@/types'
+import type { User } from '@/types'
 
 const usersStore = useUsersStore()
 
-const onCreateNewUser = (user: IUser): void => usersStore.createUser(user)
+const onCreateNewUser = (user: User): void => usersStore.createUser(user)
 </script>

@@ -9,7 +9,7 @@
 import UserForm from '@/components/user-form/UserForm.vue'
 import { useUsersStore } from '@/store/users'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
@@ -25,7 +25,7 @@ const getUserToUpdate = () => {
     }
 }
 
-onBeforeMount(() => {
+onMounted(() => {
     getUserToUpdate()
 })
 </script>

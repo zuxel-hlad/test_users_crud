@@ -1,11 +1,11 @@
 import { BASE_URL } from '@/constants'
-import type { IUser } from '@/types'
+import type { User } from '@/types'
 import axios, { AxiosError } from 'axios'
 
 export default {
-    async getUsers(): Promise<IUser[] | undefined> {
+    async getUsers(): Promise<User[] | undefined> {
         try {
-            const { data: users } = await axios.get<IUser[]>(`${BASE_URL}/users`)
+            const { data: users } = await axios.get<User[]>(`${BASE_URL}/users`)
             return users
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
@@ -17,12 +17,12 @@ export default {
         }
     },
 
-    async getUser(id: number): Promise<IUser | undefined> {
+    async getUser(id: number): Promise<User | undefined> {
         try {
             if (!id) {
                 throw new Error('Unknown error while fetching User.')
             }
-            const { data: user } = await axios.get<IUser>(`${BASE_URL}/users/${id}`)
+            const { data: user } = await axios.get<User>(`${BASE_URL}/users/${id}`)
             return user
         } catch (error: unknown) {
             if (error instanceof AxiosError) {

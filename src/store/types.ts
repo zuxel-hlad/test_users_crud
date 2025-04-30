@@ -1,8 +1,8 @@
-import type { IUser } from '@/types'
+import type { User } from '@/types'
 
-export interface IUsersStore {
-    users: IUser[]
+export interface UsersStore {
+    users: User[]
     usersLoading: boolean
     userLoading: boolean
-    user: IUser | null
+    user: User | null
 }
