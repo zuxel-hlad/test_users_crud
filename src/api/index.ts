@@ -1,36 +1,44 @@
-import { BASE_URL } from '@/constants'
-import type { User } from '@/types'
 import axios, { AxiosError } from 'axios'
+import { BASE_URL } from '@/constants'
 
-export default {
-    async getUsers(): Promise<User[] | undefined> {
-        try {
-            const { data: users } = await axios.get<User[]>(`${BASE_URL}/users`)
-            return users
-        } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                console.error('Failed to fetch Users:', error.message)
-                throw Error(error.message)
-            }
-            console.error('Unknown error while fetching Users')
-            throw Error('Unknown error while fetching Users')
-        }
-    },
+const api = axios.create({
+    baseURL: BASE_URL,
+    timeout: 10000,
+})
 
-    async getUser(id: number): Promise<User | undefined> {
-        try {
-            if (!id) {
-                throw new Error('Unknown error while fetching User.')
+api.interceptors.response.use(
+    response => response,
+    (error: AxiosError) => {
+        let message = 'Unknown error'
+
+        if (!error.response) {
+            message = 'Network error. Please check your internet connection.'
+        } else {
+            const { status, data } = error.response
+
+            switch (status) {
+                case 400:
+                    message = data && typeof data === 'object' && 'message' in data && typeof data.message === 'string' ? data.message : 'Bad Request'
+                    break
+                case 401:
+                    message = `${status}: Unauthorized. Please login again.`
+                    break
+                case 403:
+                    message = `${status}: Forbidden. You don’t have access to this resource.`
+                    break
+                case 404:
+                    message = `${status}: Resource not found.`
+                    break
+                case 500:
+                    message = `${status}: Server error. Please try again later.`
+                    break
+                default:
+                    message =
+                        data && typeof data === 'object' && 'message' in data && typeof data.message === 'string' ? `${status}: ${data.message}` : `${status} Unexpected error`
             }
-            const { data: user } = await axios.get<User>(`${BASE_URL}/users/${id}`)
-            return user
-        } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                console.error('Failed to fetch User:', error.message)
-                throw Error(error.message)
-            }
-            console.error('Unknown error while fetching User. User ID not received.')
-            throw Error('Unknown error while fetching User')
         }
+        return Promise.reject(new Error(message))
     },
-}
+)
+
+export default api

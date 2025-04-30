@@ -1,7 +1,7 @@
 <template>
     <section>
         <div v-if="userLoading" class="mx-auto animate-pulse text-center text-2xl">Loading...</div>
-        <div v-else class="container mx-auto px-3"><UserForm :user="user" @save="usersStore.editUser" mode="edit" /></div>
+        <div v-else class="container mx-auto px-3"><UserForm :user="user" @save="usersStore.editUser" /></div>
     </section>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
     <Form
         ref="formRef"
-        :key="mode + (user?.id || '')"
+        :key="Date.now()"
         @submit="onSave"
         :validation-schema="validationSchema"
         :initial-values="initialValues"
@@ -9,7 +9,7 @@
         class="mx-auto max-w-xl space-y-6 rounded-xl bg-white p-6 shadow"
     >
         <div class="flex items-center justify-between gap-2.5">
-            <h2 class="text-xl font-bold">{{ mode === 'create' ? 'Create new User' : 'Edit User' }}</h2>
+            <h2 class="text-xl font-bold">{{ user ? 'Edit User' : 'Create new User' }}</h2>
             <RouterLink to="/" class="flex items-center justify-start gap-2 transition-colors hover:text-blue-700 active:text-blue-700">
                 <AppIcon icon="heroicons:arrow-small-left-20-solid" class="text-2xl" />To all users
             </RouterLink>
@@ -32,21 +32,20 @@
             type="submit"
             class="pointer-events-auto w-full cursor-pointer rounded bg-blue-600 py-2 text-white transition-colors hover:bg-blue-700 active:bg-blue-700 disabled:pointer-events-none disabled:bg-gray-500 disabled:text-black"
         >
-            {{ mode === 'create' ? 'Submit' : 'Save Changes' }}
+            {{ isEditMode ? 'Save Changes' : 'Submit' }}
         </button>
     </Form>
 </template>
 
 <script setup lang="ts">
 import { Field, ErrorMessage, Form } from 'vee-validate'
-import { onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { validationSchema } from './validation-schema'
 import type { FormField } from './types'
 import type { User } from '@/types'
 
-const { user, mode = 'create' } = defineProps<{
+const props = defineProps<{
     user?: User | null
-    mode?: 'edit' | 'create'
 }>()
 
 const emit = defineEmits<{
@@ -71,20 +70,28 @@ const initialValues = ref({
     bs: '',
 })
 
-onMounted(() => {
-    if (mode === 'edit' && user) {
-        initialValues.value = {
-            name: user.name ?? '',
-            email: user.email ?? '',
-            company: user.company?.name ?? '',
-            catchPhrase: user.company?.catchPhrase ?? '',
-            bs: user.company?.bs ?? '',
-        }
-    }
+const isEditMode = computed<boolean>(() => {
+    return props.user ? true : false
 })
 
+watch(
+    props,
+    () => {
+        if (props.user) {
+            initialValues.value = {
+                name: props.user.name ?? '',
+                email: props.user.email ?? '',
+                company: props.user.company?.name ?? '',
+                catchPhrase: props.user.company?.catchPhrase ?? '',
+                bs: props.user?.company?.bs ?? '',
+            }
+        }
+    },
+    { immediate: true },
+)
+
 const onSave = (values: Record<string, string>): void => {
-    const id = user?.id ?? Date.now()
+    const id = props.user?.id ?? Date.now()
     const newUser: User = {
         id,
         name: values.name,

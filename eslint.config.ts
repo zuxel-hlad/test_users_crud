@@ -28,7 +28,6 @@ export default defineConfigWithVueTs(
             'vue/no-v-html': 'off',
             'prettier/prettier': 'warn',
             ...eslintConfigPrettier.rules,
-            indent: 'warn',
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {

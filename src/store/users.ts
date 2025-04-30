@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import api from '@/api'
+import { getUser, getUsers } from '@/api/users'
 import { toast } from 'vue3-toastify'
 import type { UsersStore } from './types'
 import type { User } from '@/types'
@@ -15,40 +15,26 @@ export const useUsersStore = defineStore('users', {
 
     actions: {
         async setUsers() {
-            this.usersLoading = false
-            try {
-                this.usersLoading = true
-                const users = await api.getUsers()
-                if (users) {
-                    this.users = users
-                }
-            } catch (e: unknown) {
-                const error = e as string
-                toast.error(error)
-            } finally {
-                this.usersLoading = false
-            }
+            this.usersLoading = true
+            await getUsers()
+                .then(users => (this.users = users))
+                .catch(e => toast.error(e.message))
+                .finally(() => (this.usersLoading = false))
         },
 
         async setUser(id: number) {
             const localUser = this.users.find(user => user.id === id)
-            this.userLoading = false
-            try {
-                if (localUser) {
-                    this.user = localUser
-                    return
-                }
-                this.userLoading = true
-                const userData = await api.getUser(id)
-                if (userData) {
-                    this.user = userData
-                }
-            } catch (e: unknown) {
-                const error = e as string
-                toast.error(error)
-            } finally {
-                this.userLoading = false
+            if (localUser) {
+                this.user = localUser
+                return
             }
+
+            this.userLoading = false
+
+            await getUser(id)
+                .then(user => (this.user = user))
+                .catch(e => toast.error(e.message))
+                .finally(() => (this.userLoading = false))
         },
 
         createUser(user: User) {
@@ -66,7 +52,6 @@ export const useUsersStore = defineStore('users', {
                 return user
             })
             toast.success(`User "${this.user?.name}" successfully updated!`)
-            this.user = null
         },
 
         deleteUser(id: number) {
